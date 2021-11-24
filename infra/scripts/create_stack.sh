@@ -1,1 +1,1 @@
-aws cloudformation create-stack --stack-name $1 --template-body file://$2  --parameters file://$3
+aws cloudformation create-stack --stack-name $3 --template-body file://$1  --parameters file://$2

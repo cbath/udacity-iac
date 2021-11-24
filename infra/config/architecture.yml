@@ -56,8 +56,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow http to our load balancer
-      VpcId:
-        - !Ref EnvironmentVPC
+      VpcId: !Sub ${EnvironmentVPC}
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 80
@@ -73,8 +72,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow http to our hosts and SSH from local only
-      VpcId:
-        - !Ref EnvironmentVPC
+      VpcId: !Sub ${EnvironmentVPC}
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 8080
@@ -117,7 +115,7 @@ Resources:
     Properties:
       VPCZoneIdentifier:
         - !Sub ${PrivSubnetEast1A}
-        - !Sub ${PrivSubnetEast1A}
+        - !Sub ${PrivSubnetEast1B}
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
       MinSize: '2'
@@ -160,6 +158,7 @@ Resources:
         Priority: 1
         
   WebAppTargetGroup:
+    #https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       HealthCheckIntervalSeconds: 10
@@ -170,8 +169,7 @@ Resources:
       Port: 8080
       Protocol: HTTP
       UnhealthyThresholdCount: 5
-      VpcId: 
-        - !Ref EnvironmentVPC
+      VpcId: !Sub ${EnvironmentVPC}
 
 #Outputs: 
   # This is also optional.
