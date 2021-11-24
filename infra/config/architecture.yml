@@ -1,6 +1,10 @@
 Description: >
     Craig Bath / Udacity IAC Project
 
+# Declarations
+# !Sub - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
+# !Ref - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
+
 Parameters:
     EnvironmentName:
         Description: An environment name that will be prefixed to resource names
@@ -53,8 +57,7 @@ Resources:
     Properties:
       GroupDescription: Allow http to our load balancer
       VpcId:
-        Fn::ImportValue: 
-          !Sub "${EnvironmentVPC}"
+        - !Ref EnvironmentVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 80
@@ -71,8 +74,7 @@ Resources:
     Properties:
       GroupDescription: Allow http to our hosts and SSH from local only
       VpcId:
-        Fn::ImportValue:
-          !Sub "${EnvironmentVPC}"
+        - !Ref EnvironmentVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 8080
@@ -110,12 +112,12 @@ Resources:
   
   # Auto-scaling settings to handle how much resources we'll want
   WebAppGroup:
-    Type: AWS::AutoScaling::AutoScalingGroup
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html
+    Type: AWS::AutoScaling::AutoScalingGroup   
     Properties:
       VPCZoneIdentifier:
-      - Fn::ImportValue: 
-          !Sub "${PrivSubnetsAll}"
+        - !Sub ${PrivSubnetEast1A}
+        - !Sub ${PrivSubnetEast1A}
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
       MinSize: '2'
@@ -128,8 +130,8 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Subnets:
-      - Fn::ImportValue: !Sub "${PubSubnetEast1A}"
-      - Fn::ImportValue: !Sub "${PubSubnetEast1B}"
+      - !Ref PubSubnetEast1A
+      - !Ref PubSubnetEast1B
       SecurityGroups:
       - Ref: LBSecGroup
 
@@ -169,8 +171,7 @@ Resources:
       Protocol: HTTP
       UnhealthyThresholdCount: 5
       VpcId: 
-        Fn::ImportValue:
-          Fn::Sub: "${EnvironmentVPC}"
+        - !Ref EnvironmentVPC
 
 #Outputs: 
   # This is also optional.
