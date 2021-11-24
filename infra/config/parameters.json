@@ -1,0 +1,26 @@
+[
+	{
+		"ParameterKey": "EnvironmentName",
+		"ParameterValue": "Prod-Udacity-IAC"
+	},
+	{
+		"ParameterKey": "EnvironmentVPC",
+		"ParameterValue": "vpc-0085edace102388f3M"
+	},
+	{
+		"ParameterKey": "PubSubnetEast1A",
+		"ParameterValue": "subnet-0b91c3bcf38f0f75a"
+	},
+	{
+		"ParameterKey": "PubSubnetEast1B",
+		"ParameterValue": "subnet-064b19d9bfb23ee92"
+	},
+	{
+		"ParameterKey": "PrivSubnetEast1A",
+		"ParameterValue": "subnet-016b150ed74938bf2"
+	},
+	{
+		"ParameterKey": "PrivSubnetEast1B",
+		"ParameterValue": "subnet-0596d02b7c6793d24"
+	}
+]

@@ -195,6 +195,7 @@ jobs:
           command: |
             cd backend
             npm install
+            
             # Run and sve the migration output
             npm run migrations > migrations_dump.txt
       - run:

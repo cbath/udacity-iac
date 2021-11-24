@@ -1,30 +1,30 @@
-#TODO
+[Design]
 
-- Non-Interactive due to authenticity warning ()
-        a) https://stackoverflow.com/questions/28461713/how-to-ignore-or-pass-yes-when-the-authenticity-of-host-cant-be-established-i
-                ssh -o StrictHostKeyChecking=no "$user@$host"
-                ~/.ssh/known_hosts
-                echo "54.237.49.115" >> ~/.ssh/known_hosts
+1 VPC
+4 servers in an autosdacling group - https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html
+2 private subnets
+2 Availability zones
 
-- run commands with sudo ansible (differnt AMI)
+[Notes]
 
-
-The authenticity of host '184.73.13.246 (184.73.13.246)' can't be established.
-ECDSA key fingerprint is SHA256:8sB9UEHmmAex2aYo4mc5FcJakC0mQyYKFh7f/m2joOs.  
-Are you sure you want to continue connecting (yes/no/[fingerprint])? ^C [ERROR]: User interrupted execution
-
-ssh-keyscan 54.237.49.115 >> ~/.ssh/known_hosts
-
-circleci@431a951656ad:~$ cat ~/.ssh/known_hosts
-github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
-github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
-bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
-|1|jJQIdr2hKxQt2dIdTtpY+9ySFRc=|5F70YqdcFhO3/UOGwaTqThtUUDY= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+We'll want our networking (VPC + Subnets) and database (MySQL) created ahead of time .
 
 
+[Issues]
 
-TASK [configure-server : upgrade packages] ***************************************************************************************************************************************************************************************************[WARNING]: The value True (type bool) in a string field was converted to 'True' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
-fatal: [184.73.13.246]: FAILED! => {"changed": false, "msg": "'/usr/bin/apt-get upgrade --with-new-pkgs ' failed: E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?\n", "rc": 100, "stdout": "", "stdout_lines": []}
+No export named UdacityIAC-PRIV-NETS found. Rollback requested by user.
 
-PLAY RECAP ***********************************************************************************************************************************************************************************************************************************184.73.13.246              : ok=2    changed=2    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+[Networking]
+
+VPC
+    Prod-Udacity-IAC: 10.0.0.0/16 , vpc-0085edace102388f3M (us-east-1)
+
+Subnets
+    Public
+       -   UdacityIAC-PUB1-SN: 10.0.0.0/24 ,  (us-east-1a)
+       -   UdacityIAC-PUB2-SN: 10.0.1.0/24 ,  (us-east-1b)
+
+    Private (TODO)
+        -  UdacityIAC-PRIV1-NETS: 10.0.2.0/24 ,  (us-east-1a)
+        -  UdacityIAC-PRIV2-NETS: 10.0.3.0/24 ,  (us-east-1b)
