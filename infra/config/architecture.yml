@@ -25,6 +25,11 @@ Parameters:
     PrivSubnetEast1B:
         Description: Private Subnet us-east-1b
         Type: String
+    
+    PrivSubnetsAll:
+        Description: All private subnets for auto-scaling
+        Type: CommaDelimitedList
+
   # Paramenters are entirely optional.
   # but using them will make your cloudformation templates more reusable
   # use them for things that may change over time, such as instance type,
@@ -110,7 +115,7 @@ Resources:
     Properties:
       VPCZoneIdentifier:
       - Fn::ImportValue: 
-          !Sub "${PrivSubnetEast1A}"
+          !Sub "${PrivSubnetsAll}"
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
       MinSize: '2'

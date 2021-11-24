@@ -22,5 +22,9 @@
 	{
 		"ParameterKey": "PrivSubnetEast1B",
 		"ParameterValue": "subnet-0596d02b7c6793d24"
+	},
+	{
+		"ParameterKey": "PrivSubnetsAll",
+		"ParameterValue": "subnet-0596d02b7c6793d24,subnet-016b150ed74938bf2"
 	}
 ]
