@@ -5,7 +5,7 @@
 	},
 	{
 		"ParameterKey": "EnvironmentVPC",
-		"ParameterValue": "vpc-0085edace102388f3M"
+		"ParameterValue": "vpc-0085edace102388f3"
 	},
 	{
 		"ParameterKey": "PubSubnetEast1A",
@@ -26,5 +26,9 @@
 	{
 		"ParameterKey": "PrivSubnetsAll",
 		"ParameterValue": "subnet-0596d02b7c6793d24,subnet-016b150ed74938bf2"
+	},
+	{
+		"ParameterKey": "UbuntuAMI",
+		"ParameterValue": "ami-083654bd07b5da81d"
 	}
 ]

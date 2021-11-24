@@ -9,30 +9,27 @@ Parameters:
     EnvironmentName:
         Description: An environment name that will be prefixed to resource names
         Type: String
-    
     EnvironmentVPC:
         Description: The VPC for all environment architecture
         Type: String
-    
     PubSubnetEast1A:
         Description: Public Subnet us-east-1a
         Type: String
-    
     PubSubnetEast1B:
         Description: Public Subnet us-east-1b
         Type: String
-    
     PrivSubnetEast1A:
         Description: Private Subnet us-east-1a
         Type: String
-    
     PrivSubnetEast1B:
         Description: Private Subnet us-east-1b
         Type: String
-    
     PrivSubnetsAll:
         Description: All private subnets for auto-scaling
         Type: CommaDelimitedList
+    UbuntuAMI:
+        Description: AMI ID for an Ubuntu 18 image
+        Type: String
 
   # Paramenters are entirely optional.
   # but using them will make your cloudformation templates more reusable
@@ -98,8 +95,8 @@ Resources:
           sudo apt-get update -y
           sudo apt-get install apache2 -y
           sudo systemctl start apache2.service          
-      ImageId: ami-005bdb005fb00e791
-      KeyName: that-one
+      ImageId: !Sub ${UbuntuAMI}
+      KeyName: udacity
       SecurityGroups:
       - Ref: WebServerSecGroup
       InstanceType: t3.medium

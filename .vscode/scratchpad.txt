@@ -12,7 +12,11 @@ We'll want our networking (VPC + Subnets) and database (MySQL) created ahead of 
 
 [Issues]
 
-No export named UdacityIAC-PRIV-NETS found. Rollback requested by user.
+VPC vpc-0085edace102388f3 has no internet gateway
+    (   Service: AmazonElasticLoadBalancing; Status Code: 400; Error Code: InvalidSubnet;
+        Request ID: 35dba861-4fcf-4337-92d6-2e1214d082bd
+        ; Proxy: null
+    )
 
 
 [Networking]
