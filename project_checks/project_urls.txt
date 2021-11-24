@@ -1,5 +1,0 @@
-[URL01] GitHub Repo
-https://github.com/cbath/udacity-ci-cd
-
-[URL02] S3 URL - Frontend
-
