@@ -7,7 +7,12 @@
 
 [Notes]
 
-We'll want our networking (VPC + Subnets) and database (MySQL) created ahead of time .
+We'll want our networking & databases setup ahead of time:
+ - VPC
+ - Subnets
+ - ELB (?)
+ - Internet Gateway
+ - Database
 
 
 [Issues]
@@ -32,3 +37,5 @@ Subnets
     Private (TODO)
         -  UdacityIAC-PRIV1-NETS: 10.0.2.0/24 ,  (us-east-1a)
         -  UdacityIAC-PRIV2-NETS: 10.0.3.0/24 ,  (us-east-1b)
+
+Internet Gateway - igw-009293934bad5c8e0
