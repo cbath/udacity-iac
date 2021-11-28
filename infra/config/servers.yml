@@ -41,13 +41,12 @@ Resources:
   # never give too much permissions to your EC2 instances! if they get hacked, the permissions get hacked also!
   # in this example, I create a Role called UdacityS3ReadOnlyC2 and just give it a policy of S3 Read-Only Access
   
-  # TODO
-
-  #ProfileWithRolesForOurApp:
-  #  Type: AWS::IAM::InstanceProfile
-  #  Properties: 
-  #    Roles:
-  #      - UdacityS3ReadOnlyEC2
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html
+  ProfileWithRolesForOurApp:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - UdacityS3ReadOnlyEC2
 
   LBSecGroup:
     Type: AWS::EC2::SecurityGroup
@@ -66,14 +65,15 @@ Resources:
         CidrIp: 0.0.0.0/0
 
   WebServerSecGroup:
+    #https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow http to our hosts and SSH from local only
       VpcId: !Sub ${EnvironmentVPC}
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: 8080
-        ToPort: 8080
+        FromPort: 80
+        ToPort: 80
         CidrIp: 0.0.0.0/0
       - IpProtocol: tcp
         FromPort: 22
@@ -94,9 +94,11 @@ Resources:
           #!/bin/bash
           sudo apt-get update -y
           sudo apt-get install apache2 -y
-          sudo systemctl start apache2.service          
+          sudo systemctl start apache2.service    
+          # TODO - download from S3
+          echo "it works! Udagram, Udacity!" > /var/www/html/index.html      
       ImageId: !Sub ${UbuntuAMI}
-      KeyName: udacity
+      #KeyName: udacity
       SecurityGroups:
       - Ref: WebServerSecGroup
       InstanceType: t3.medium
@@ -115,12 +117,13 @@ Resources:
         - !Sub ${PrivSubnetEast1B}
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
-      MinSize: '2'
+      MinSize: '1'
       MaxSize: '4'
       TargetGroupARNs:
       - Ref: WebAppTargetGroup
   
   # Load balancer and the public facing subnets it will interact with (our data will be behind a private subnets)
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html
   WebAppLB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -163,12 +166,21 @@ Resources:
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 8
       HealthyThresholdCount: 2
-      Port: 8080
+      #Port: 8080
+      Port: 80
       Protocol: HTTP
       UnhealthyThresholdCount: 5
       VpcId: !Sub ${EnvironmentVPC}
 
-#Outputs: 
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html
+Outputs:
+  WebAppLBURL:
+    Description: The DNS of the load balancer
+    Value: !Join [ "", [ 'http://',!GetAtt WebAppLB.DNSName ] ]
+    Export:
+      Name: !Sub ${EnvironmentName}-LoadBalancer-URL
+    
+
   # This is also optional.
   # Bonus points for useful outputs!
   # for example, if you create a Load Balancer

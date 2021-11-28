@@ -17,11 +17,17 @@ We'll want our networking & databases setup ahead of time:
 
 [Issues]
 
-VPC vpc-0085edace102388f3 has no internet gateway
-    (   Service: AmazonElasticLoadBalancing; Status Code: 400; Error Code: InvalidSubnet;
-        Request ID: 35dba861-4fcf-4337-92d6-2e1214d082bd
-        ; Proxy: null
-    )
+
+
+[WIP]
+
+
+    Udagram communicates on the default HTTP Port: 80, so your servers will need this inbound port open since you will use it with the Load Balancer and the Load Balancer Health Check. As for outbound, the servers will need unrestricted internet access to be able to download and update their software.
+
+    The load balancer should allow all public traffic (0.0.0.0/0) on port 80 inbound, which is the default HTTP port. Outbound, it will only be using port 80 to reach the internal servers.
+
+    One of the output exports of the CloudFormation script should be the public URL of the LoadBalancer. Bonus points if you add http:// in front of the load balancer DNS Name in the output, for convenience.
+
 
 
 [Networking]
@@ -39,3 +45,24 @@ Subnets
         -  UdacityIAC-PRIV2-NETS: 10.0.3.0/24 ,  (us-east-1b)
 
 Internet Gateway - igw-009293934bad5c8e0
+
+
+[AWS Commands]
+aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query "Reservations[*].Instances[*].{public_ip:PublicIpAddress}" --output text
+
+
+// Cloud Formation
+aws cloudformation list-stacks
+aws cloudformation delete-stack --stack-name "arn:aws:cloudformation:us-east-1:604691310262:stack/InitialStack/4d465960-43f4-11ec-a482-0e8ae6186b37"
+
+// Multiple
+aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE
+aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE --query "StackSummaries[*].{stack_id:StackId}" --output text
+badstacks=$(aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE --query "StackSummaries[*].{stack_id:StackId}" --output text)
+goodstacks=$(aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE  --query "StackSummaries[*].{stack_id:StackId}" --output text)
+stacks=$(aws cloudformation list-stacks --stack-status-filter ROLLBACK_COMPLETE CREATE_COMPLETE  --query "StackSummaries[*].{stack_id:StackId}" --output text)
+
+for i in $stacks; do 
+aws cloudformation delete-stack --stack-name $i
+printf "$i"
+done

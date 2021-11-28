@@ -1,31 +1,31 @@
 [
 	{
 		"ParameterKey": "EnvironmentName",
-		"ParameterValue": "Prod-Udacity-IAC"
+		"ParameterValue": "ProdUdacityIAC"
 	},
 	{
 		"ParameterKey": "EnvironmentVPC",
-		"ParameterValue": "vpc-0085edace102388f3"
+		"ParameterValue": "vpc-01d5c588adf278c1d"
 	},
 	{
 		"ParameterKey": "PubSubnetEast1A",
-		"ParameterValue": "subnet-0b91c3bcf38f0f75a"
+		"ParameterValue": "subnet-0c38398739dfa2aff"
 	},
 	{
 		"ParameterKey": "PubSubnetEast1B",
-		"ParameterValue": "subnet-064b19d9bfb23ee92"
+		"ParameterValue": "subnet-0a0b26375debef674"
 	},
 	{
 		"ParameterKey": "PrivSubnetEast1A",
-		"ParameterValue": "subnet-016b150ed74938bf2"
+		"ParameterValue": "subnet-069dae30d793511b9"
 	},
 	{
 		"ParameterKey": "PrivSubnetEast1B",
-		"ParameterValue": "subnet-0596d02b7c6793d24"
+		"ParameterValue": "subnet-03ef369d8ba63b85e"
 	},
 	{
 		"ParameterKey": "PrivSubnetsAll",
-		"ParameterValue": "subnet-0596d02b7c6793d24,subnet-016b150ed74938bf2"
+		"ParameterValue": "subnet-069dae30d793511b9,subnet-03ef369d8ba63b85e"
 	},
 	{
 		"ParameterKey": "UbuntuAMI",
